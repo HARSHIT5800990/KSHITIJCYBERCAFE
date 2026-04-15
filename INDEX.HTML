@@ -1,63 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kshitij Cyber Cafe</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kshitij Cyber Cafe</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f5f5f5;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  background: #0d6efd;
+  color: white;
+  padding: 10px 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* BUTTON */
+button {
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #084298;
+}
+
+input {
+  padding: 10px;
+  margin: 5px;
+  width: 250px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Navbar -->
-    <header>
-        <h1>Kshitij Cyber Cafe</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png" class="logo">
+  <h2>KSHITIJ CYBER CAFE</h2>
+</div>
 
-    <!-- Home Section -->
-    <section id="home">
-        <h2>Welcome to Cyber Cafe 💻</h2>
-        <p>All Online Services Available Here</p>
-        <button onclick="showMessage()">Click Me</button>
-    </section>
+<div class="container">
 
-    <!-- Services -->
-    <section id="services">
-        <h2>Our Services</h2>
-        <ul>
-            <li>Aadhar Card Print</li>
-            <li>Ayushman Card</li>
-            <li>Online Form Fill</li>
-            <li>Photo Print</li>
-            <li>Internet Browsing</li>
-        </ul>
-    </section>
+  <!-- SERVICES -->
+  <div class="card">
+    <h3>Our Services</h3>
+    <p>Ayushman Card, PAN Card, Aadhar Services, Online Forms</p>
+  </div>
 
-    <!-- About -->
-    <section id="about">
-        <h2>About Us</h2>
-        <p>
-            Kshitij Cyber Cafe provides all types of online services like 
-            government forms, printing, scanning and more. Fast & Reliable Service.
-        </p>
-    </section>
+  <!-- OTP LOGIN -->
+  <div class="card">
+    <h3>User Login (OTP)</h3>
+    
+    <input type="text" id="phone" placeholder="+91XXXXXXXXXX"><br>
+    <button onclick="sendOTP()">Send OTP</button><br>
 
-    <!-- Contact -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>📍 Location: Your Area</p>
-        <p>📞 Mobile: 9305497875, 9807123400</p>
-    </section>
+    <input type="text" id="otp" placeholder="Enter OTP"><br>
+    <button onclick="verifyOTP()">Verify OTP</button>
 
-    <footer>
-        <p>© 2026 Kshitij Cyber Cafe</p>
-    </footer>
+    <div id="recaptcha-container"></div>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- ADMIN LOGIN -->
+  <div class="card">
+    <h3>Admin Login</h3>
+    
+    <input type="text" id="adminUser" placeholder="Username"><br>
+    <input type="password" id="adminPass" placeholder="Password"><br>
+    <button onclick="adminLogin()">Login</button>
+  </div>
+
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDqJ_DZX9SA0jsud_VArubMpWt60oxR2F4",
+  authDomain: "kshitijcybercafe-712c2.firebaseapp.com",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+
+// SEND OTP
+function sendOTP() {
+  var number = document.getElementById("phone").value;
+
+  firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier)
+    .then(function (confirmationResult) {
+      window.confirmationResult = confirmationResult;
+      alert("OTP Sent");
+    }).catch(function(error){
+      alert(error.message);
+    });
+}
+
+// VERIFY OTP
+function verifyOTP() {
+  var code = document.getElementById("otp").value;
+
+  confirmationResult.confirm(code).then(function (result) {
+    alert("Login Successful");
+  }).catch(function(){
+    alert("Wrong OTP");
+  });
+}
+
+// ADMIN LOGIN
+function adminLogin() {
+  var user = document.getElementById("adminUser").value;
+  var pass = document.getElementById("adminPass").value;
+
+  if(user === "admin" && pass === "1234") {
+    alert("Admin Login Success");
+    window.location.href = "admin.html";
+  } else {
+    alert("Wrong Credentials");
+  }
+}
+</script>
+
 </body>
 </html>
