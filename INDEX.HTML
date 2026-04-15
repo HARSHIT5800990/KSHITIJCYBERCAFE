@@ -5,60 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kshitij Cyber Cafe</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  background: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+  background: #f1f5f9;
 }
 
 /* HEADER */
 .header {
   display: flex;
   align-items: center;
+  padding: 10px 20px;
   background: #0d6efd;
   color: white;
-  padding: 10px 20px;
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(to right, #0d6efd, #00c6ff);
+  color: white;
+}
+
+/* CARD */
 .container {
   padding: 20px;
 }
 
-/* BUTTON */
-button {
+.card {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+input {
+  width: 90%;
   padding: 10px;
-  margin: 5px;
-  border: none;
+  margin: 8px 0;
+}
+
+button {
+  padding: 10px 15px;
   background: #0d6efd;
+  border: none;
   color: white;
+  border-radius: 6px;
   cursor: pointer;
-  border-radius: 5px;
 }
 
 button:hover {
   background: #084298;
-}
-
-input {
-  padding: 10px;
-  margin: 5px;
-  width: 250px;
-}
-
-/* CARD */
-.card {
-  background: white;
-  padding: 20px;
-  margin: 10px 0;
-  border-radius: 10px;
 }
 </style>
 </head>
@@ -71,86 +80,51 @@ input {
   <h2>KSHITIJ CYBER CAFE</h2>
 </div>
 
+<!-- HERO -->
+<div class="hero">
+  <h1>Welcome to Kshitij Cyber Cafe</h1>
+  <p>All Online Services Available Here</p>
+</div>
+
 <div class="container">
 
   <!-- SERVICES -->
   <div class="card">
     <h3>Our Services</h3>
-    <p>Ayushman Card, PAN Card, Aadhar Services, Online Forms</p>
-  </div>
-
-  <!-- OTP LOGIN -->
-  <div class="card">
-    <h3>User Login (OTP)</h3>
-    
-    <input type="text" id="phone" placeholder="+91XXXXXXXXXX"><br>
-    <button onclick="sendOTP()">Send OTP</button><br>
-
-    <input type="text" id="otp" placeholder="Enter OTP"><br>
-    <button onclick="verifyOTP()">Verify OTP</button>
-
-    <div id="recaptcha-container"></div>
+    <p>✔ Ayushman Card<br>✔ PAN Card<br>✔ Aadhar Services<br>✔ Online Forms</p>
   </div>
 
   <!-- ADMIN LOGIN -->
   <div class="card">
     <h3>Admin Login</h3>
-    
-    <input type="text" id="adminUser" placeholder="Username"><br>
-    <input type="password" id="adminPass" placeholder="Password"><br>
-    <button onclick="adminLogin()">Login</button>
+
+    <input type="text" id="username" placeholder="Enter User ID"><br>
+    <input type="password" id="password" placeholder="Enter Password"><br>
+
+    <button onclick="login()">Login</button>
   </div>
 
 </div>
+<div class="card">
+  <h3>Fill Service Form</h3>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <input type="text" id="name" placeholder="Full Name"><br>
+  <input type="text" id="mobile" placeholder="Mobile Number"><br>
+  <input type="text" id="service" placeholder="Service (PAN / Ayushman etc)"><br>
+
+  <button onclick="saveData()">Submit</button>
+</div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBf4vaN2kvzerrCL9BVBBF0Jo0jaCEajTY",
-  authDomain: "kshitijcybercafe.netlify.app",
-};
+function login() {
+  var user = document.getElementById("username").value;
+  var pass = document.getElementById("password").value;
 
-firebase.initializeApp(firebaseConfig);
-
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-
-// SEND OTP
-function sendOTP() {
-  var number = document.getElementById("phone").value;
-
-  firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier)
-    .then(function (confirmationResult) {
-      window.confirmationResult = confirmationResult;
-      alert("OTP Sent");
-    }).catch(function(error){
-      alert(error.message);
-    });
-}
-
-// VERIFY OTP
-function verifyOTP() {
-  var code = document.getElementById("otp").value;
-
-  confirmationResult.confirm(code).then(function (result) {
-    alert("Login Successful");
-  }).catch(function(){
-    alert("Wrong OTP");
-  });
-}
-
-// ADMIN LOGIN
-function adminLogin() {
-  var user = document.getElementById("adminUser").value;
-  var pass = document.getElementById("adminPass").value;
-
-  if(user === "admin" && pass === "1234") {
-    alert("Admin Login Success");
+  if(user === "9305497875" && pass === "ASdf@12345") {
+    alert("Login Successful ✅");
     window.location.href = "admin.html";
   } else {
-    alert("Wrong Credentials");
+    alert("Wrong ID or Password ❌");
   }
 }
 </script>

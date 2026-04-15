@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid black;
+  padding: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>Submitted Data</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Mobile</th>
+      <th>Service</th>
+    </tr>
+  </thead>
+  <tbody id="dataTable"></tbody>
+</table>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+let data = JSON.parse(localStorage.getItem("formData")) || [];
+
+let table = document.getElementById("dataTable");
+
+data.forEach((item) => {
+  let row = `<tr>
+    <td>${item.name}</td>
+    <td>${item.mobile}</td>
+    <td>${item.service}</td>
+  </tr>`;
+  table.innerHTML += row;
+});
+
+function logout() {
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
